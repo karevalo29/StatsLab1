@@ -22,3 +22,22 @@ sum(seq(100,1000,100))
 
 ```
 
+# Problem 2
+## Compute the sum of these numbers, (1,3,2,4,3,5,4,3,4,5,6,5,6,7,6,5,6,5,4,3,4,5)
+```{r}
+sum(c(1,3,2,4,3,5,4,3,4,5,6,5,6,7,6,5,6,5,4,3,4,5))
+```
+
+# Problem 3
+## Write a custom sequence generator function using a for loop that generates a sequence from a starting integer value to an ending integer value in steps of 1. Demonstrate that it can produce the sequence 1 to 10.
+
+```{r}
+seq_gen <- function(start,end) {
+  for(i in start:end){
+    print(i)
+  }
+}
+
+seq_gen(1,10)
+```
+
