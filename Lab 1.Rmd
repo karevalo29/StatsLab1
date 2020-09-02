@@ -4,9 +4,6 @@ author: "Kristina Arevalo"
 date: '`r format(Sys.time(), "%a %b %d %Y")`'
 output: 
   pdf_document:
-    toc: yes
-    toc_depth: 3
-    number_sections: yes
 monofont: Times New Roman
 ---
 
@@ -40,4 +37,31 @@ seq_gen <- function(start,end) {
 
 seq_gen(1,10)
 ```
+
+# Problem 4
+## Write a custom function to implement the following general equation to find the sum of any constant series:
+
+## Demonstrate that your function correctly produces the sum for the series below: seq(10,100,10)
+#>  [1]  10  20  30  40  50  60  70  80  90 100
+
+```{r}
+
+const_series <- function(X1, Xn, step) 
+  {
+  (((Xn-X1)/step) + 1) * ((X1+Xn)/2)
+}
+const_series(10, 100, 10)
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
