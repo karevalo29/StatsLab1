@@ -15,3 +15,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+# Problem 1
+## Compute the sum of the sequence 100 to 1000, going up by a constant value of 100
+```{r}
+sum(seq(100,1000,100))
+
+```
+
