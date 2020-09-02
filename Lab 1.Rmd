@@ -71,6 +71,13 @@ constant_series2(10,100,10)
 
 ```
 
+# Problem 6
+## Use the sum() and the length() functions to calculate the mean (average) of the numbers x = c(1,2,3,4,5).
+
+```{r}
+x = c(1,2,3,4,5)
+sum(x)/length(x)
+```
 
 
 
