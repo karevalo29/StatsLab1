@@ -53,6 +53,23 @@ const_series <- function(X1, Xn, step)
 const_series(10, 100, 10)
 ```
 
+# Problem 5
+## Write a custom function that generates a constant series between any start and end values, with any constant, and finds the sum. Have your function output both the sequence and the sum. For this problem, feel free to use the existing seq() and sum() functions in your custom function. Demonstrate the function correctly prints out the above sequence (10 to 100 in steps of 10), and its sum.
+
+```{r}
+
+constant_series2<- function(start,end,step) {
+  my_seq <- seq(start,end,step)
+  my_sum <- sum(my_seq)
+  my_answer<- list(my_seq, my_sum)
+  return(my_answer)
+}
+
+constant_series2(10,100,10)
+
+
+
+```
 
 
 
