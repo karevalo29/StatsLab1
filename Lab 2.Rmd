@@ -5,14 +5,17 @@ date: '`r format(Sys.time(), "%a %b %d %Y")`'
 output: 
   pdf_document:
     toc: yes 
-    toc_depth: 3
+    toc_depth: 2
 monofont: Times New Roman
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(dplyr)
+library(ggplot2)
 ```
+
+\newpage
 
 # Problem 1
 
@@ -48,17 +51,33 @@ Write a custom R function for any one of the following descriptive statistics: m
 ```{r}
 x <- rnorm(n=100, mean=12, sd=1)
 n <- length(x)
-standard_dev <- sqrt(sum((x - mean(x))^2) / (n - 1))
-
+standard_dev <- function(a){
+  sqrt(sum((x - mean(x))^2) / (n - 1))
+}
 standard_dev
 sd(x)
 ```
 
-Would rate this a 100 because it was something I had notes on from Fahd's class.
+Would rate this a 100 because it was something I had similiar notes on from Fahd's class.
 
 # Problem 3 
 
 Imagine the same instructor taught a morning, afternoon, and evening section of the same course. And, the average scores for each section on a midterm were 85% for the morning, 90% for the afternoon, and 93% for the evening sections. Create a data.frame representing these means for each section. Then, use ggplot2 to plot the means as bar graph. (hint you will need one vector for the class sections, and one vector for the means. Then you can combine them into a data.frame before plotting them)
+
+```{r}
+class_sections <- c("Morning", "Afternoon", "Evening")
+avg_scores <- c(85, 90, 93)
+my_data_frame <- data.frame(class_sections,avg_scores)
+
+ggplot(my_data_frame, aes(class_sections, avg_scores, fill= class_sections)) +
+    geom_bar(stat="identity") +
+    theme_classic()+
+    theme(text = element_text(family = "Times"), legend.position = "none") +
+    labs(x = "Class Sections", y = "Average Scores", title = "Average Midterm Grades")
+
+  
+```
+
 
 # Problem 4
 
