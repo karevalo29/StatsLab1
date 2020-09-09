@@ -46,8 +46,15 @@ For this problem I would rate it a 0, I wasn't sure what to do or what example y
 Write a custom R function for any one of the following descriptive statistics: median, mode, standard deviation, variance. Demonstrate that it produces the same value as the base R function given some set of numbers.
 
 ```{r}
+x <- rnorm(n=100, mean=12, sd=1)
+n <- length(x)
+standard_dev <- sqrt(sum((x - mean(x))^2) / (n - 1))
 
+standard_dev
+sd(x)
 ```
+
+Would rate this a 100 because it was something I had notes on from Fahd's class.
 
 # Problem 3 
 
