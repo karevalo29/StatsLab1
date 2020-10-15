@@ -1,0 +1,62 @@
+---
+title: "Lab 7"
+author: "Kristina Arevalo"
+date: '`r format(Sys.time(), "%a %b %d %Y")`'
+output: 
+  pdf_document:
+    toc: yes 
+    toc_depth: 2
+monofont: Times New Roman
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+```{r,echo=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+\newpage
+
+# Problem 1
+A test-taker answered 50 true/false questions and received a score of 60% correct. Report the results of a binomial test and explain whether you think the test-score could be explained in terms the test-taker randomly guessing on each question. (2 points)
+
+```{r}
+binom.test(x = 30 , n=50, p = .5, alternative = "greater")
+
+```
+The probability that a test-taker could receive a score of 60% on a 50 question true/false test by chance is p = 0.1013. If were using an alpha of .05, then we would conclude that the test-taker did randomly guess on each question and thats how they achieved the score of 60. 
+
+Confidence = 100
+
+# Problem 2
+An examiner wants to make a TRUE/FALSE test, but is still decided how many questions they will include. They want to make sure that it would be very difficult to simply randomly guess and be able to score any higher than 55% percent. How many questions would the examiner need to use to be confident that scores of 55% or higher were not produced by chance? (2 points)
+
+```{r}
+binom.test(x= 385, n=700, alternative = "greater")
+```
+
+Confidence = 100
+
+# Problem 3
+A test has 5 TRUE/FALSE questions (each with one right answer) and 5 multiple choice questions with four choices each (each with only one right answer).
+
+* create a sampling distribution or probability distribution to illustrate how a random chance process could perform on this test. (1 point)
+* What is the probability of that randomly guessing on each question could allow a person to receive 75% or greater on this test? (1 point)
+
+```{r}
+rbinom(n = rep(1,10), 
+       size =1 , 
+       prob= c(.5, .5, .5, .5, .5, .25, .25, .25,.25,.25))
+
+simulated_test<- replicate(10000, rbinom(n = rep(1,10), 
+       size =1 , 
+       prob= c(.5, .5, .5, .5, .5, .25, .25, .25,.25,.25)))
+
+simulated_scores <- colSums(simulated_test/10)
+length(simulated_scores[simulated_scores >= .75]) / 10000
+```
+
+Confidence = 50
