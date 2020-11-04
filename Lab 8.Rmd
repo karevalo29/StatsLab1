@@ -1,0 +1,67 @@
+---
+title: "Lab 8"
+author: "Kristina Arevalo"
+date: '`r format(Sys.time(), "%a %b %d %Y")`'
+output: 
+  pdf_document:
+    toc: yes 
+    toc_depth: 2
+monofont: Times New Roman
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+```{r,echo=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+\newpage
+
+# Problem 1
+Write a function to convert a vector of raw-scores into z-scores. The function should have inputs for the vector, the mean and sd of the normal distribution, and should return a vector of zscores. (1 point).
+*Also, demonstrate that the function works correctly (1 point). How you make the demonstration is up to you.
+
+```{r}
+convert_to_z_score <- function(score,mean,sd){
+  z_scores <- (score-mean)/sd
+return(z_scores)
+}
+
+raw_scores<- c(85,76,91,65,88)
+convert_to_z_score(raw_scores, 75, 2)
+
+
+```
+confidence=100
+
+# Problem 2
+
+Base R does not have a function for a z-test. Write a function to accomplish a one-sample z-test. Remember, a one-sample z test is used to compare the probability of obtaining the sample mean (or larger or smaller) if it came from a known normal distribution. (2 points).
+
+*Use your z-test function to conduct a test of the following. A sample of 25 scores is taken. The mean of the sample is 50. The sample is assumed to have been taken from a normal distribution with mean 40 and standard deviation 7. 
+*Report a one-tailed z-test, examining the probability of obtaining a sample of greater than 50 in this situation. Report the results, and give a brief sentence explaining the result and the inference you make (2 points).
+
+```{r}
+z_test <- function(sample_mean, sample_size, mu, sigma){
+  sample_dist_mean <- mu
+  sample_dist_sd <- sigma/(sqrt(sample_size))
+  
+  p_value <- pnorm(sample_mean, sample_dist_mean, sample_dist_sd, lower.tail = FALSE)
+  return (p_value)
+}
+
+z_test(sample_mean = 50, 
+       sample_size = 25, 
+       mu= 40, 
+       sigma = 7)
+  
+```
+
+Given this information, the value of is p is very small or p < .001 and it would be improbable to obtain a sample of greater than 50 with these values. 
+
+confidence= 50 
+
