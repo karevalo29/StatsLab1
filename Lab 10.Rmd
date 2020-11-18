@@ -1,0 +1,117 @@
+---
+title: "Lab 9"
+author: "Kristina Arevalo"
+date: '`r format(Sys.time(), "%a %b %d %Y")`'
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes 
+    toc_depth: 2
+monofont: Times New Roman
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+```{r,echo=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(readxl)
+library(papaja)
+```
+
+\newpage
+
+# Problem 1
+
+Your task is to obtain the data from the following paper and conduct a reproducible analysis of their results.
+Rosenbaum, D., Mama, Y., & Algom, D. (2017). Stand by Your Stroop: Standing Up Enhances Selective Attention and Cognitive Control. Psychological science, 28(12), 1864-1867.
+
+
+The re-analysis should focus only on Experiment 3. There are three main goals
+
+Reproduce as much of the analysis as possible using only paired-sample t-tests. Note, the authors reported a 2x2 repeated measures ANOVA, but consider how the same questions could be answered by t-tests (2 points)
+
+```{r}
+data <- read.csv("open_data/stroop_stand.csv")
+```
+     
+## Sit Stroop effect
+```{r}
+(sit_stroop <- t.test(data$incongruent_sit,
+                      data$congruent_sit,
+                      paired = TRUE))
+```
+
+## Stand Stroop effect
+```{r}
+(stand_stroop <- t.test(data$incongruent_stand,
+                        data$congruent_stand,
+                        paired = TRUE))
+```
+ 
+Rosenbaum et al., (2017) reported "The Stroop effects in both the sitting condition, M = 118.9 ms, t(49) = 16.52, p < .01, d = 2.376, and the standing condition, M = 95.9 ms, t(49) = 14.327, p < .01, d = 2.034, were highly reliable."
+
+
+We were able to reproduce the results of this paper. zwe found the Stroop effects in both the sitting condition, `r apa_print(sit_stroop)$full_result`, and the standing condition, `r apa_print(stand_stroop)$full_result`, were highly reliable.
+
+Confidence = 100
+
+# Problem 2 
+Reproduce a graph of the means, like shown in the paper (2 points)
+```{r}
+data.long<- data %>%
+  pivot_longer(cols = 1:4,
+               names_to = c("Congruency","Posture"),
+               names_sep = "_",
+               values_to = "RTs")
+
+overall_means <- data.long %>%
+                  group_by(Posture,Congruency) %>%
+                  summarise(meanRT = mean(RTs),
+                            SEMRT = (sd(RTs)/sqrt(length(RTs))))
+
+ggplot(overall_means, aes(x=Posture, y=meanRT, group=Congruency,fill=Congruency))+
+  geom_bar(stat="identity",position="dodge")+
+  theme_classic(base_size=12)+
+  ylab("Mean Reaction Time (ms)")+
+  geom_errorbar(aes(ymin=meanRT-SEMRT,
+                    ymax=meanRT+SEMRT),
+                position=position_dodge(width=0.9),
+                width=.2,
+                color="black")+
+  coord_cartesian(ylim=c(500,1000))
+```
+Confidence = 50 
+VERY thankful for your demonstration on wide to long, I've been using a different function (melt) to convert and sometimes it just messes it up so I end up using SPSS to restructure my data, but this way is so much better! Thank you!
+
+# Problem 3
+Present a power-curve analysis for the design. (2 points)
+```{r}
+effect_sizes <- seq(0,1.5,.1)
+
+prop_significant <-c()
+for(i in 1:length(effect_sizes)){
+  sim_ps <- replicate(1000, t.test(replicate(50, rnorm(1, effect_sizes[i], 1)),
+                                   mu = 0)$p.value)
+  
+  prop_significant[i] <- length(sim_ps[sim_ps < .05])/1000
+}
+plot_df <- data.frame(effect_sizes,
+                      prop_significant)
+ggplot(plot_df, aes(x=effect_sizes,y=prop_significant))+
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks=seq(0,1.5,.1))+
+  scale_y_continuous(breaks=seq(0,1,.1)) +
+  ylab("Proportion Significant")
+```
+
+Confidence = 0 
+
+
+
+
