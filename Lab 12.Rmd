@@ -1,0 +1,39 @@
+---
+title: "Lab 12"
+author: "Kristina Arevalo"
+date: '`r format(Sys.time(), "%a %b %d %Y")`'
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes 
+    toc_depth: 2
+monofont: Times New Roman
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+```{r,echo=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(psych)
+```
+
+\newpage
+
+# Problem 1
+Should you do a linear regression on this data? Explain.
+
+```{r}
+data <- data.frame(Y = c(10,9,8,7,6,5,4,3,2,1,2,3,4,5,6,7,8,9,10),
+X = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19))
+
+cor.test(data$Y, data$X)
+
+data %>% pairs.panels()
+```
+No, you should not run a regression on this data because it has a correlation of 0 and there is no linear relationship between the variables. You can not run regression on data that is not correlated because they are not related therefore they will not be predictive of each other. 
+Confidence = 100 
